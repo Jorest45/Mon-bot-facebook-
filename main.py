@@ -2,11 +2,14 @@ from flask import Flask, request
 import requests
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 app = Flask(__name__)
+
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
 PAGE_ACCESS_TOKEN = os.getenv("PAGE_ACCESS_TOKEN")
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
+
 def get_ai_response(message):
     url = "https://api.deepseek.com/chat/completions"
     headers = {
@@ -50,5 +53,5 @@ def webhook():
     return "ok", 200
 
 if __name__ == '__main__':
-    app.run()
-    
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
